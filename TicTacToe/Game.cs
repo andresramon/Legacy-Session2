@@ -5,82 +5,84 @@ namespace TicTacToe
     public class Game
     {
         private char _lastSymbol = ' ';
-        private Board _board = new Board();
+        private readonly Board _board = new Board();
         
         public void Play(char symbol, int x, int y)
         {
-            //if first move
-            if(_lastSymbol == ' ')
-            {
-                //if player is X
-                if(symbol == 'O')
-                {
-                    throw new Exception("Invalid first player");
-                }
-            } 
-            //if not first move but player repeated
-            else if (symbol == _lastSymbol)
-            {
-                throw new Exception("Invalid next player");
-            }
-            //if not first move but play on an already played tile
-            else if (_board.TileAt(x, y).Symbol != ' ')
-            {
-                throw new Exception("Invalid position");
-            }
+            CheckValidMove(symbol, x, y);
+            UpdateGameState(symbol, x, y);
+        }
 
-            // update game state
+        private void UpdateGameState(char symbol, int x, int y)
+        {
             _lastSymbol = symbol;
             _board.AddTileAt(symbol, x, y);
         }
 
-        public char Winner()
-        {   //if the positions in first row are taken
-            if(_board.TileAt(0, 0).Symbol != ' ' &&
-               _board.TileAt(0, 1).Symbol != ' ' &&
-               _board.TileAt(0, 2).Symbol != ' ')
-               {
-                    //if first row is full with same symbol
-                    if (_board.TileAt(0, 0).Symbol == 
-                        _board.TileAt(0, 1).Symbol &&
-                        _board.TileAt(0, 2).Symbol == 
-                        _board.TileAt(0, 1).Symbol )
-                        {
-                            return _board.TileAt(0, 0).Symbol;
-                        }
-               }
-                
-             //if the positions in first row are taken
-             if(_board.TileAt(1, 0).Symbol != ' ' &&
-                _board.TileAt(1, 1).Symbol != ' ' &&
-                _board.TileAt(1, 2).Symbol != ' ')
-                {
-                    //if middle row is full with same symbol
-                    if (_board.TileAt(1, 0).Symbol == 
-                        _board.TileAt(1, 1).Symbol &&
-                        _board.TileAt(1, 2).Symbol == 
-                        _board.TileAt(1, 1).Symbol)
-                        {
-                            return _board.TileAt(1, 0).Symbol;
-                        }
-                }
+        private void CheckValidMove(char symbol, int x, int y)
+        {
+            CheckFirstMoveValid(symbol);
+            CheckPlayerRepeated(symbol);
+            _board.CheckAlreadyPlayedTile(x, y);
+        }
 
-            //if the positions in first row are taken
-             if(_board.TileAt(2, 0).Symbol != ' ' &&
-                _board.TileAt(2, 1).Symbol != ' ' &&
-                _board.TileAt(2, 2).Symbol != ' ')
+        private void CheckFirstMoveValid(char symbol)
+        {
+            if (IsFirstMove() && IsPlayerO(symbol))
+            {
+                throw new Exception("Invalid first player");
+            }
+        }
+
+        private void CheckPlayerRepeated(char symbol)
+        {
+            if (symbol == _lastSymbol)
+            {
+                throw new Exception("Invalid next player");
+            } 
+        }
+
+        private bool IsFirstMove()
+        {
+            return _lastSymbol == ' ';
+        }
+
+        private static bool IsPlayerO(char symbol)
+        {
+            return symbol == 'O';
+        }
+
+        public char Winner()
+        {
+            for (int row = 0;row < 3;row++)
+            {
+                if(IsWinnerInRow(row))
                 {
-                    //if middle row is full with same symbol
-                    if (_board.TileAt(2, 0).Symbol == 
-                        _board.TileAt(2, 1).Symbol &&
-                        _board.TileAt(2, 2).Symbol == 
-                        _board.TileAt(2, 1).Symbol)
-                        {
-                            return _board.TileAt(2, 0).Symbol;
-                        }
-                }
+                    return _board.TileAt(row, 0).Symbol;
+                } 
+            }
 
             return ' ';
+        }
+
+        private bool IsWinnerInRow(int row)
+        {
+            return IsRowPositionsFull(row) && IsRowWithSameSymbol(row);
+        }
+
+        private bool IsRowPositionsFull(int row)
+        {
+            return _board.TileAt(row, 0).Symbol != ' ' &&
+                   _board.TileAt(row, 1).Symbol != ' ' &&
+                   _board.TileAt(row, 2).Symbol != ' ';
+        }
+
+        private bool IsRowWithSameSymbol(int row)
+        {
+            return _board.TileAt(row, 0).Symbol == 
+                   _board.TileAt(row, 1).Symbol &&
+                   _board.TileAt(row, 2).Symbol == 
+                   _board.TileAt(row, 1).Symbol;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace TicTacToe;
@@ -33,5 +34,13 @@ public class Board
         };
 
         _plays.Single(tile => tile.X == x && tile.Y == y).Symbol = symbol;
+    }
+
+    public void CheckAlreadyPlayedTile(int x, int y)
+    {
+        if (this.TileAt(x, y).Symbol != ' ')
+        {
+            throw new Exception("Invalid position");
+        }
     }
 }
