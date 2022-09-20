@@ -56,6 +56,13 @@ public class Game
     
     public void Play(char symbol, int row, int column)
     {
+        ValidatePlay(symbol, row, column);
+
+        UpdateGameState(symbol, row, column);
+    }
+
+    private void ValidatePlay(char symbol, int row, int column)
+    {
         if (IfFirstMove() && IsPlayerO(symbol))
         {
             throw new Exception(InvalidFirstPlayer);
@@ -70,8 +77,6 @@ public class Game
         {
             throw new Exception(InvalidPosition);
         }
-
-        UpdateGameState(symbol, row, column);
     }
 
     private void UpdateGameState(char symbol, int row, int column)
