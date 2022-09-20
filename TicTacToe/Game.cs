@@ -102,23 +102,20 @@ public class Game
 
     public char Winner()
     {
-        if (IsFirstRowTaken())
-            if (IsFirstRowFullWithSamePlayer())
-            {
-                return _board.TileAt(Board.FirstRow, Board.FirstColumn).Player;
-            }
+        if (IsFirstRowTaken() && IsFirstRowFullWithSamePlayer())
+        {
+            return _board.TileAt(Board.FirstRow, Board.FirstColumn).Player;
+        }
 
-        if (IsSecondRowTaken())
-            if (IsSecondRowFullWithSamePlayer())
-            {
-                return _board.TileAt(Board.SecondRow, Board.FirstColumn).Player;
-            }
+        if (IsSecondRowTaken() && IsSecondRowFullWithSamePlayer())
+        {
+            return _board.TileAt(Board.SecondRow, Board.FirstColumn).Player;
+        }
 
-        if (IsThirdRowTaken())
-            if (IsThirdRowFullWithSamePlayer())
-            {
-                return _board.TileAt(Board.ThirdRow, Board.FirstColumn).Player;
-            }
+        if (IsThirdRowTaken() && IsThirdRowFullWithSamePlayer())
+        {
+            return _board.TileAt(Board.ThirdRow, Board.FirstColumn).Player;
+        }
 
         return Board.EmptyPlayer;
     }
