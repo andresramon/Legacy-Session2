@@ -63,19 +63,34 @@ public class Game
 
     private void ValidatePlay(char symbol, int row, int column)
     {
-        if (IfFirstMove() && IsPlayerO(symbol))
-        {
-            throw new Exception(InvalidFirstPlayer);
-        }
+        ValidateFirstPlayer(symbol);
 
+        ValidatePlayerChanges(symbol);
+
+        ValidateFreePosition(row, column);
+    }
+
+    private void ValidateFreePosition(int row, int column)
+    {
+        if (IsPositionOccupied(row, column))
+        {
+            throw new Exception(InvalidPosition);
+        }
+    }
+
+    private void ValidatePlayerChanges(char symbol)
+    {
         if (IsSamePlayerAsLastMove(symbol))
         {
             throw new Exception(InvalidNextPlayer);
         }
+    }
 
-        if (IsPositionOccupied(row, column))
+    private void ValidateFirstPlayer(char symbol)
+    {
+        if (IfFirstMove() && IsPlayerO(symbol))
         {
-            throw new Exception(InvalidPosition);
+            throw new Exception(InvalidFirstPlayer);
         }
     }
 
