@@ -163,8 +163,8 @@ public class Game
 
     private bool IsFirstRowTaken()
     {
-        return _board.TileAt(0, 0).Symbol != ' ' &&
-               _board.TileAt(0, 1).Symbol != ' ' &&
-               _board.TileAt(0, 2).Symbol != ' ';
+        return _board.TileAt(Board.FirstRow, Board.FirstColumn).Symbol != Board.EmptyPlayer &&
+               _board.TileAt(Board.FirstRow, Board.SecondColumn).Symbol != Board.EmptyPlayer &&
+               _board.TileAt(Board.FirstRow, Board.ThirdColumn).Symbol != Board.EmptyPlayer;
     }
 }
