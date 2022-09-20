@@ -14,7 +14,7 @@ public class Tile
 public class Board
 {
     private readonly List<Tile> _plays = new();
-    const int MaxRow = 3;
+    public const int MaxRow = 3;
     const int MaxColumn = 3;
     public const char EmptyPlayer = ' ';
     public const char PlayerO = 'O';
@@ -122,21 +122,13 @@ public class Game
 
     public char Winner()
     {
-        if (IsRowTaken(Board.FirstRow) && IsRowFullWithSamePlayer(Board.FirstRow))
+        for (int row = Board.FirstRow; row <= Board.MaxRow; row++)
         {
-            return _board.TileAt(Board.FirstRow, Board.FirstColumn).Player;
+            if (IsRowTaken(row) && IsRowFullWithSamePlayer(row))
+            {
+                return _board.TileAt(row, Board.FirstColumn).Player;
+            }
         }
-
-        if (IsRowTaken(Board.SecondRow) && IsRowFullWithSamePlayer(Board.SecondRow))
-        {
-            return _board.TileAt(Board.SecondRow, Board.FirstColumn).Player;
-        }
-
-        if (IsRowTaken(Board.ThirdRow) && IsRowFullWithSamePlayer(Board.ThirdRow))
-        {
-            return _board.TileAt(Board.ThirdRow, Board.FirstColumn).Player;
-        }
-
         return Board.EmptyPlayer;
     }
 
