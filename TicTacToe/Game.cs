@@ -17,6 +17,7 @@ public class Board
     const int MaxRow = 3;
     const int MaxColumn = 3;
     public const char EmptyPlayer = ' ';
+    public const char PlayerO = 'O';
     public Board()
     {
         for (var row = 0; row < MaxRow; row++)
@@ -74,7 +75,7 @@ public class Game
 
     private bool IsPositionOcuppied(int x, int y)
     {
-        return _board.TileAt(x, y).Symbol != ' ';
+        return _board.TileAt(x, y).Symbol != Board.EmptyPlayer;
     }
 
     private bool IsSamePlayerAsLastMove(char symbol)
@@ -84,12 +85,12 @@ public class Game
 
     private static bool IsPlayerO(char symbol)
     {
-        return symbol == 'O';
+        return symbol == Board.PlayerO;
     }
 
     private bool IfFirstMove()
     {
-        return _lastSymbol == ' ';
+        return _lastSymbol == Board.EmptyPlayer;
     }
 
     public char Winner()
