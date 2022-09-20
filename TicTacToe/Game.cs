@@ -14,12 +14,11 @@ public class Tile
 public class Board
 {
     private readonly List<Tile> _plays = new();
-
+    const int MaxRow = 3;
+    const int MaxColumn = 3;
+    public const char EmptyPlayer = ' ';
     public Board()
     {
-        const int MaxRow = 3;
-        const int MaxColumn = 3;
-        const char EmptyPlayer = ' ';
         for (var row = 0; row < MaxRow; row++)
         {
             for (var column = 0; column < MaxColumn; column++)
@@ -43,15 +42,26 @@ public class Board
 public class Game
 {
     private readonly Board _board = new();
-    private char _lastSymbol = ' ';
-
+    private char _lastSymbol = Board.EmptyPlayer;
+    const string InvalidFirstPlayer = "Invalid first player";
+    const string InvalidNextPlayer = "Invalid next player";
+    const string InvalidPosition = "Invalid position";
     public void Play(char symbol, int x, int y)
     {
-        if (IfFirstMove() && IsPlayerO(symbol)) throw new Exception("Invalid first player");
+        if (IfFirstMove() && IsPlayerO(symbol))
+        {
+            throw new Exception(InvalidFirstPlayer);
+        }
 
-        if (IsSamePlayerAsLastMove(symbol)) throw new Exception("Invalid next player");
+        if (IsSamePlayerAsLastMove(symbol))
+        {
+            throw new Exception(InvalidNextPlayer);
+        }
 
-        if (IsPositionOcuppied(x, y)) throw new Exception("Invalid position");
+        if (IsPositionOcuppied(x, y))
+        {
+            throw new Exception(InvalidPosition);
+        }
 
         UpdateGameState(symbol, x, y);
     }
