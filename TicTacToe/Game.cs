@@ -148,9 +148,9 @@ public class Game
 
     private bool IsSecondRowTaken()
     {
-        return _board.TileAt(1, 0).Symbol != ' ' &&
-               _board.TileAt(1, 1).Symbol != ' ' &&
-               _board.TileAt(1, 2).Symbol != ' ';
+        return _board.TileAt(Board.SecondRow, Board.FirstColumn).Symbol != Board.EmptyPlayer &&
+               _board.TileAt(Board.SecondRow, Board.SecondColumn).Symbol != Board.EmptyPlayer &&
+               _board.TileAt(Board.SecondRow, Board.ThirdColumn).Symbol != Board.EmptyPlayer;
     }
 
     private bool IsFirstRowFullWithSamePlayer()
