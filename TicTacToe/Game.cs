@@ -32,13 +32,6 @@ namespace TicTacToe
 
        public void AddTileAt(char symbol, int x, int y)
        {
-           var newTile = new Tile
-           {
-               X = x,
-               Y = y,
-               Symbol = symbol
-           };
-
            _plays.Single(tile => tile.X == x && tile.Y == y).Symbol = symbol;
        }
     }
