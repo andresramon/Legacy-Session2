@@ -22,6 +22,8 @@ public class Board
     public const int FirstColumn = 0;
     public const int SecondRow = 1;
     public const int ThirdRow = 2;
+    public const int SecondColumn = 1;
+    public const int ThirdColumn = 2;
     public Board()
     {
         for (var row = 0; row < MaxRow; row++)
@@ -123,10 +125,10 @@ public class Game
 
     private bool IsThirdRowFullWithSamePlayer()
     {
-        return _board.TileAt(2, 0).Symbol ==
-               _board.TileAt(2, 1).Symbol &&
-               _board.TileAt(2, 2).Symbol ==
-               _board.TileAt(2, 1).Symbol;
+        return _board.TileAt(Board.ThirdRow, Board.FirstColumn).Symbol ==
+               _board.TileAt(Board.ThirdRow, Board.SecondColumn).Symbol &&
+               _board.TileAt(Board.ThirdRow, Board.ThirdColumn).Symbol ==
+               _board.TileAt(Board.ThirdRow, Board.SecondColumn).Symbol;
     }
 
     private bool IsThirdRowTaken()
