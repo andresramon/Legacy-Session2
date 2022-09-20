@@ -124,12 +124,17 @@ public class Game
     {
         for (int row = Board.FirstRow; row <= Board.MaxRow; row++)
         {
-            if (IsRowTaken(row) && IsRowFullWithSamePlayer(row))
+            if (IsWinnerRow(row))
             {
                 return _board.TileAt(row, Board.FirstColumn).Player;
             }
         }
         return Board.EmptyPlayer;
+    }
+
+    private bool IsWinnerRow(int row)
+    {
+        return IsRowTaken(row) && IsRowFullWithSamePlayer(row);
     }
 
     private bool IsRowFullWithSamePlayer(int row)
