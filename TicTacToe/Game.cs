@@ -6,9 +6,9 @@ namespace TicTacToe;
 
 public class Tile
 {
-    public int X { get; set; }
-    public int Y { get; set; }
-    public char Symbol { get; set; }
+    public int Row { get; set; }
+    public int Column { get; set; }
+    public char Player { get; set; }
 }
 
 public class Board
@@ -26,23 +26,23 @@ public class Board
     public const int ThirdColumn = 2;
     public Board()
     {
-        for (var row = 0; row < MaxRow; row++)
+        for (var row = FirstRow; row < MaxRow; row++)
         {
-            for (var column = 0; column < MaxColumn; column++)
+            for (var column = FirstColumn; column < MaxColumn; column++)
             {
-                _plays.Add(new Tile { X = row, Y = column, Symbol = EmptyPlayer });
+                _plays.Add(new Tile { Row = row, Column = column, Player = EmptyPlayer });
             }
         }
     }
 
-    public Tile TileAt(int x, int y)
+    public Tile TileAt(int row, int column)
     {
-        return _plays.Single(tile => tile.X == x && tile.Y == y);
+        return _plays.Single(tile => tile.Row == row && tile.Column == column);
     }
 
-    public void AddTileAt(char symbol, int x, int y)
+    public void AddTileAt(char symbol, int row, int column)
     {
-        _plays.Single(tile => tile.X == x && tile.Y == y).Symbol = symbol;
+        _plays.Single(tile => tile.Row == row && tile.Column == column).Player = symbol;
     }
 }
 
@@ -54,7 +54,7 @@ public class Game
     const string InvalidNextPlayer = "Invalid next player";
     const string InvalidPosition = "Invalid position";
     
-    public void Play(char symbol, int x, int y)
+    public void Play(char symbol, int row, int column)
     {
         if (IfFirstMove() && IsPlayerO(symbol))
         {
@@ -66,23 +66,23 @@ public class Game
             throw new Exception(InvalidNextPlayer);
         }
 
-        if (IsPositionOcuppied(x, y))
+        if (IsPositionOcuppied(row, column))
         {
             throw new Exception(InvalidPosition);
         }
 
-        UpdateGameState(symbol, x, y);
+        UpdateGameState(symbol, row, column);
     }
 
-    private void UpdateGameState(char symbol, int x, int y)
+    private void UpdateGameState(char symbol, int row, int column)
     {
         _lastSymbol = symbol;
-        _board.AddTileAt(symbol, x, y);
+        _board.AddTileAt(symbol, row, column);
     }
 
-    private bool IsPositionOcuppied(int x, int y)
+    private bool IsPositionOcuppied(int row, int column)
     {
-        return _board.TileAt(x, y).Symbol != Board.EmptyPlayer;
+        return _board.TileAt(row, column).Player != Board.EmptyPlayer;
     }
 
     private bool IsSamePlayerAsLastMove(char symbol)
@@ -105,19 +105,19 @@ public class Game
         if (IsFirstRowTaken())
             if (IsFirstRowFullWithSamePlayer())
             {
-                return _board.TileAt(Board.FirstRow, Board.FirstColumn).Symbol;
+                return _board.TileAt(Board.FirstRow, Board.FirstColumn).Player;
             }
 
         if (IsSecondRowTaken())
             if (IsSecondRowFullWithSamePlayer())
             {
-                return _board.TileAt(Board.SecondRow, Board.FirstColumn).Symbol;
+                return _board.TileAt(Board.SecondRow, Board.FirstColumn).Player;
             }
 
         if (IsThirdRowTaken())
             if (IsThirdRowFullWithSamePlayer())
             {
-                return _board.TileAt(Board.ThirdRow, Board.FirstColumn).Symbol;
+                return _board.TileAt(Board.ThirdRow, Board.FirstColumn).Player;
             }
 
         return Board.EmptyPlayer;
@@ -125,46 +125,46 @@ public class Game
 
     private bool IsThirdRowFullWithSamePlayer()
     {
-        return _board.TileAt(Board.ThirdRow, Board.FirstColumn).Symbol ==
-               _board.TileAt(Board.ThirdRow, Board.SecondColumn).Symbol &&
-               _board.TileAt(Board.ThirdRow, Board.ThirdColumn).Symbol ==
-               _board.TileAt(Board.ThirdRow, Board.SecondColumn).Symbol;
+        return _board.TileAt(Board.ThirdRow, Board.FirstColumn).Player ==
+               _board.TileAt(Board.ThirdRow, Board.SecondColumn).Player &&
+               _board.TileAt(Board.ThirdRow, Board.ThirdColumn).Player ==
+               _board.TileAt(Board.ThirdRow, Board.SecondColumn).Player;
     }
 
     private bool IsThirdRowTaken()
     {
-        return _board.TileAt(Board.ThirdRow, Board.FirstColumn).Symbol != Board.EmptyPlayer &&
-               _board.TileAt(Board.ThirdRow, Board.SecondColumn).Symbol != Board.EmptyPlayer &&
-               _board.TileAt(Board.ThirdRow, Board.ThirdColumn).Symbol != Board.EmptyPlayer;
+        return _board.TileAt(Board.ThirdRow, Board.FirstColumn).Player != Board.EmptyPlayer &&
+               _board.TileAt(Board.ThirdRow, Board.SecondColumn).Player != Board.EmptyPlayer &&
+               _board.TileAt(Board.ThirdRow, Board.ThirdColumn).Player != Board.EmptyPlayer;
     }
 
     private bool IsSecondRowFullWithSamePlayer()
     {
-        return _board.TileAt(Board.SecondRow, Board.FirstColumn).Symbol ==
-               _board.TileAt(Board.SecondRow, Board.SecondColumn).Symbol &&
-               _board.TileAt(Board.SecondRow, Board.ThirdColumn).Symbol ==
-               _board.TileAt(Board.SecondRow, Board.SecondColumn).Symbol;
+        return _board.TileAt(Board.SecondRow, Board.FirstColumn).Player ==
+               _board.TileAt(Board.SecondRow, Board.SecondColumn).Player &&
+               _board.TileAt(Board.SecondRow, Board.ThirdColumn).Player ==
+               _board.TileAt(Board.SecondRow, Board.SecondColumn).Player;
     }
 
     private bool IsSecondRowTaken()
     {
-        return _board.TileAt(Board.SecondRow, Board.FirstColumn).Symbol != Board.EmptyPlayer &&
-               _board.TileAt(Board.SecondRow, Board.SecondColumn).Symbol != Board.EmptyPlayer &&
-               _board.TileAt(Board.SecondRow, Board.ThirdColumn).Symbol != Board.EmptyPlayer;
+        return _board.TileAt(Board.SecondRow, Board.FirstColumn).Player != Board.EmptyPlayer &&
+               _board.TileAt(Board.SecondRow, Board.SecondColumn).Player != Board.EmptyPlayer &&
+               _board.TileAt(Board.SecondRow, Board.ThirdColumn).Player != Board.EmptyPlayer;
     }
 
     private bool IsFirstRowFullWithSamePlayer()
     {
-        return _board.TileAt(Board.FirstRow, Board.FirstColumn).Symbol ==
-               _board.TileAt(Board.FirstRow, Board.SecondColumn).Symbol &&
-               _board.TileAt(Board.FirstRow, Board.ThirdColumn).Symbol ==
-               _board.TileAt(Board.FirstRow, Board.SecondColumn).Symbol;
+        return _board.TileAt(Board.FirstRow, Board.FirstColumn).Player ==
+               _board.TileAt(Board.FirstRow, Board.SecondColumn).Player &&
+               _board.TileAt(Board.FirstRow, Board.ThirdColumn).Player ==
+               _board.TileAt(Board.FirstRow, Board.SecondColumn).Player;
     }
 
     private bool IsFirstRowTaken()
     {
-        return _board.TileAt(Board.FirstRow, Board.FirstColumn).Symbol != Board.EmptyPlayer &&
-               _board.TileAt(Board.FirstRow, Board.SecondColumn).Symbol != Board.EmptyPlayer &&
-               _board.TileAt(Board.FirstRow, Board.ThirdColumn).Symbol != Board.EmptyPlayer;
+        return _board.TileAt(Board.FirstRow, Board.FirstColumn).Player != Board.EmptyPlayer &&
+               _board.TileAt(Board.FirstRow, Board.SecondColumn).Player != Board.EmptyPlayer &&
+               _board.TileAt(Board.FirstRow, Board.ThirdColumn).Player != Board.EmptyPlayer;
     }
 }
