@@ -133,9 +133,9 @@ public class Game
 
     private bool IsThirdRowTaken()
     {
-        return _board.TileAt(2, 0).Symbol != ' ' &&
-               _board.TileAt(2, 1).Symbol != ' ' &&
-               _board.TileAt(2, 2).Symbol != ' ';
+        return _board.TileAt(Board.ThirdRow, Board.FirstColumn).Symbol != Board.EmptyPlayer &&
+               _board.TileAt(Board.ThirdRow, Board.SecondColumn).Symbol != Board.EmptyPlayer &&
+               _board.TileAt(Board.ThirdRow, Board.ThirdColumn).Symbol != Board.EmptyPlayer;
     }
 
     private bool IsSecondRowFullWithSamePlayer()
