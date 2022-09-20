@@ -40,32 +40,32 @@ public class Board
         return _plays.Single(tile => tile.Row == row && tile.Column == column);
     }
 
-    public void AddTileAt(char symbol, int row, int column)
+    public void AddTileAt(char player, int row, int column)
     {
-        _plays.Single(tile => tile.Row == row && tile.Column == column).Player = symbol;
+        _plays.Single(tile => tile.Row == row && tile.Column == column).Player = player;
     }
 }
 
 public class Game
 {
     private readonly Board _board = new();
-    private char _lastSymbol = Board.EmptyPlayer;
+    private char _lastPlayer = Board.EmptyPlayer;
     const string InvalidFirstPlayer = "Invalid first player";
     const string InvalidNextPlayer = "Invalid next player";
     const string InvalidPosition = "Invalid position";
     
-    public void Play(char symbol, int row, int column)
+    public void Play(char player, int row, int column)
     {
-        ValidatePlay(symbol, row, column);
+        ValidatePlay(player, row, column);
 
-        UpdateGameState(symbol, row, column);
+        UpdateGameState(player, row, column);
     }
 
-    private void ValidatePlay(char symbol, int row, int column)
+    private void ValidatePlay(char player, int row, int column)
     {
-        ValidateFirstPlayer(symbol);
+        ValidateFirstPlayer(player);
 
-        ValidatePlayerChanges(symbol);
+        ValidatePlayerChanges(player);
 
         ValidateFreePosition(row, column);
     }
@@ -78,26 +78,26 @@ public class Game
         }
     }
 
-    private void ValidatePlayerChanges(char symbol)
+    private void ValidatePlayerChanges(char player)
     {
-        if (IsSamePlayerAsLastMove(symbol))
+        if (IsSamePlayerAsLastMove(player))
         {
             throw new Exception(InvalidNextPlayer);
         }
     }
 
-    private void ValidateFirstPlayer(char symbol)
+    private void ValidateFirstPlayer(char player)
     {
-        if (IfFirstMove() && IsPlayerO(symbol))
+        if (IfFirstMove() && IsPlayerO(player))
         {
             throw new Exception(InvalidFirstPlayer);
         }
     }
 
-    private void UpdateGameState(char symbol, int row, int column)
+    private void UpdateGameState(char player, int row, int column)
     {
-        _lastSymbol = symbol;
-        _board.AddTileAt(symbol, row, column);
+        _lastPlayer = player;
+        _board.AddTileAt(player, row, column);
     }
 
     private bool IsPositionOccupied(int row, int column)
@@ -105,19 +105,19 @@ public class Game
         return _board.TileAt(row, column).Player != Board.EmptyPlayer;
     }
 
-    private bool IsSamePlayerAsLastMove(char symbol)
+    private bool IsSamePlayerAsLastMove(char player)
     {
-        return symbol == _lastSymbol;
+        return player == _lastPlayer;
     }
 
-    private bool IsPlayerO(char symbol)
+    private bool IsPlayerO(char player)
     {
-        return symbol == Board.PlayerO;
+        return player == Board.PlayerO;
     }
 
     private bool IfFirstMove()
     {
-        return _lastSymbol == Board.EmptyPlayer;
+        return _lastPlayer == Board.EmptyPlayer;
     }
 
     public char Winner()
