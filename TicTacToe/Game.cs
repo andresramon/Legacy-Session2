@@ -50,78 +50,127 @@ namespace TicTacToe
         
         public void Play(char symbol, int x, int y)
         {
-            //if first move
-            if(_lastSymbol == ' ')
+            
+            if(IfFirstMove()&&IsPlayerO(symbol))
             {
-                //if player is X
-                if(symbol == 'O')
-                {
-                    throw new Exception("Invalid first player");
-                }
+                throw new Exception("Invalid first player");
             } 
-            //if not first move but player repeated
-            else if (symbol == _lastSymbol)
+            
+            if (IsSamePlayerAsLastMove(symbol))
             {
                 throw new Exception("Invalid next player");
             }
-            //if not first move but play on an already played tile
-            else if (_board.TileAt(x, y).Symbol != ' ')
+            
+            if (IsPositionOcuppied(x, y))
             {
                 throw new Exception("Invalid position");
             }
+            
+            UpdateGameState(symbol, x, y);
+        }
 
-            // update game state
+        private void UpdateGameState(char symbol, int x, int y)
+        {
             _lastSymbol = symbol;
             _board.AddTileAt(symbol, x, y);
         }
 
+        private bool IsPositionOcuppied(int x, int y)
+        {
+            return _board.TileAt(x, y).Symbol != ' ';
+        }
+
+        private bool IsSamePlayerAsLastMove(char symbol)
+        {
+            return symbol == _lastSymbol;
+        }
+
+        private static bool IsPlayerO(char symbol)
+        {
+            return symbol == 'O';
+        }
+
+        private bool IfFirstMove()
+        {
+            return _lastSymbol == ' ';
+        }
+
         public char Winner()
-        {   //if the positions in first row are taken
-            if(_board.TileAt(0, 0).Symbol != ' ' &&
-               _board.TileAt(0, 1).Symbol != ' ' &&
-               _board.TileAt(0, 2).Symbol != ' ')
+        {   
+            if(IsFirstRowTaken())
                {
-                    //if first row is full with same symbol
-                    if (_board.TileAt(0, 0).Symbol == 
-                        _board.TileAt(0, 1).Symbol &&
-                        _board.TileAt(0, 2).Symbol == 
-                        _board.TileAt(0, 1).Symbol )
+                    
+                    if (IsFirstRowFullWithSamePlayer() )
                         {
                             return _board.TileAt(0, 0).Symbol;
                         }
                }
                 
-             //if the positions in first row are taken
-             if(_board.TileAt(1, 0).Symbol != ' ' &&
-                _board.TileAt(1, 1).Symbol != ' ' &&
-                _board.TileAt(1, 2).Symbol != ' ')
+             
+             if(IsSecondRowTaken())
                 {
-                    //if middle row is full with same symbol
-                    if (_board.TileAt(1, 0).Symbol == 
-                        _board.TileAt(1, 1).Symbol &&
-                        _board.TileAt(1, 2).Symbol == 
-                        _board.TileAt(1, 1).Symbol)
+                    if (IsSecondRowFullWithSamePlayer())
                         {
                             return _board.TileAt(1, 0).Symbol;
                         }
                 }
 
-            //if the positions in first row are taken
-             if(_board.TileAt(2, 0).Symbol != ' ' &&
-                _board.TileAt(2, 1).Symbol != ' ' &&
-                _board.TileAt(2, 2).Symbol != ' ')
+            
+             if(IsThirdRowTaken())
                 {
-                    //if middle row is full with same symbol
-                    if (_board.TileAt(2, 0).Symbol == 
-                        _board.TileAt(2, 1).Symbol &&
-                        _board.TileAt(2, 2).Symbol == 
-                        _board.TileAt(2, 1).Symbol)
+                    
+                    if (IsThirdRowFullWithSamePlayer())
                         {
                             return _board.TileAt(2, 0).Symbol;
                         }
                 }
+             return ' ';
+            
+        }
 
-            return ' ';
+        private bool IsThirdRowFullWithSamePlayer()
+        {
+            return _board.TileAt(2, 0).Symbol == 
+                   _board.TileAt(2, 1).Symbol &&
+                   _board.TileAt(2, 2).Symbol == 
+                   _board.TileAt(2, 1).Symbol;
+        }
+
+        private bool IsThirdRowTaken()
+        {
+            return _board.TileAt(2, 0).Symbol != ' ' &&
+                   _board.TileAt(2, 1).Symbol != ' ' &&
+                   _board.TileAt(2, 2).Symbol != ' ';
+        }
+
+        private bool IsSecondRowFullWithSamePlayer()
+        {
+            return _board.TileAt(1, 0).Symbol == 
+                   _board.TileAt(1, 1).Symbol &&
+                   _board.TileAt(1, 2).Symbol == 
+                   _board.TileAt(1, 1).Symbol;
+        }
+
+        private bool IsSecondRowTaken()
+        {
+            return _board.TileAt(1, 0).Symbol != ' ' &&
+                   _board.TileAt(1, 1).Symbol != ' ' &&
+                   _board.TileAt(1, 2).Symbol != ' ';
+        }
+
+        private bool IsFirstRowFullWithSamePlayer()
+        {
+            return _board.TileAt(0, 0).Symbol == 
+                   _board.TileAt(0, 1).Symbol &&
+                   _board.TileAt(0, 2).Symbol == 
+                   _board.TileAt(0, 1).Symbol;
+        }
+
+        private bool IsFirstRowTaken()
+        {
+            return _board.TileAt(0, 0).Symbol != ' ' &&
+                   _board.TileAt(0, 1).Symbol != ' ' &&
+                   _board.TileAt(0, 2).Symbol != ' ';
         }
     }
 }
