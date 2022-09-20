@@ -122,17 +122,17 @@ public class Game
 
     public char Winner()
     {
-        if (IsFirstRowTaken() && IsFirstRowFullWithSamePlayer())
+        if (IsRowTaken(Board.FirstRow) && IsFirstRowFullWithSamePlayer())
         {
             return _board.TileAt(Board.FirstRow, Board.FirstColumn).Player;
         }
 
-        if (IsSecondRowTaken() && IsSecondRowFullWithSamePlayer())
+        if (IsRowTaken(Board.SecondRow) && IsSecondRowFullWithSamePlayer())
         {
             return _board.TileAt(Board.SecondRow, Board.FirstColumn).Player;
         }
 
-        if (IsThirdRowTaken() && IsThirdRowFullWithSamePlayer())
+        if (IsRowTaken(Board.ThirdRow) && IsThirdRowFullWithSamePlayer())
         {
             return _board.TileAt(Board.ThirdRow, Board.FirstColumn).Player;
         }
@@ -148,26 +148,12 @@ public class Game
                _board.TileAt(Board.ThirdRow, Board.SecondColumn).Player;
     }
 
-    private bool IsThirdRowTaken()
-    {
-        return _board.TileAt(Board.ThirdRow, Board.FirstColumn).Player != Board.EmptyPlayer &&
-               _board.TileAt(Board.ThirdRow, Board.SecondColumn).Player != Board.EmptyPlayer &&
-               _board.TileAt(Board.ThirdRow, Board.ThirdColumn).Player != Board.EmptyPlayer;
-    }
-
     private bool IsSecondRowFullWithSamePlayer()
     {
         return _board.TileAt(Board.SecondRow, Board.FirstColumn).Player ==
                _board.TileAt(Board.SecondRow, Board.SecondColumn).Player &&
                _board.TileAt(Board.SecondRow, Board.ThirdColumn).Player ==
                _board.TileAt(Board.SecondRow, Board.SecondColumn).Player;
-    }
-
-    private bool IsSecondRowTaken()
-    {
-        return _board.TileAt(Board.SecondRow, Board.FirstColumn).Player != Board.EmptyPlayer &&
-               _board.TileAt(Board.SecondRow, Board.SecondColumn).Player != Board.EmptyPlayer &&
-               _board.TileAt(Board.SecondRow, Board.ThirdColumn).Player != Board.EmptyPlayer;
     }
 
     private bool IsFirstRowFullWithSamePlayer()
@@ -178,10 +164,10 @@ public class Game
                _board.TileAt(Board.FirstRow, Board.SecondColumn).Player;
     }
 
-    private bool IsFirstRowTaken()
+    private bool IsRowTaken(int row)
     {
-        return _board.TileAt(Board.FirstRow, Board.FirstColumn).Player != Board.EmptyPlayer &&
-               _board.TileAt(Board.FirstRow, Board.SecondColumn).Player != Board.EmptyPlayer &&
-               _board.TileAt(Board.FirstRow, Board.ThirdColumn).Player != Board.EmptyPlayer;
+        return _board.TileAt(row, Board.FirstColumn).Player != Board.EmptyPlayer &&
+               _board.TileAt(row, Board.SecondColumn).Player != Board.EmptyPlayer &&
+               _board.TileAt(row, Board.ThirdColumn).Player != Board.EmptyPlayer;
     }
 }
