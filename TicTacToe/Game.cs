@@ -17,9 +17,16 @@ public class Board
 
     public Board()
     {
-        for (var i = 0; i < 3; i++)
-        for (var j = 0; j < 3; j++)
-            _plays.Add(new Tile { X = i, Y = j, Symbol = ' ' });
+        const int MaxRow = 3;
+        const int MaxColumn = 3;
+        const char EmptyPlayer = ' ';
+        for (var row = 0; row < MaxRow; row++)
+        {
+            for (var column = 0; column < MaxColumn; column++)
+            {
+                _plays.Add(new Tile { X = row, Y = column, Symbol = EmptyPlayer });
+            }
+        }
     }
 
     public Tile TileAt(int x, int y)
