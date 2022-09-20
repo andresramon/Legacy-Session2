@@ -66,7 +66,7 @@ public class Game
             throw new Exception(InvalidNextPlayer);
         }
 
-        if (IsPositionOcuppied(row, column))
+        if (IsPositionOccupied(row, column))
         {
             throw new Exception(InvalidPosition);
         }
@@ -80,7 +80,7 @@ public class Game
         _board.AddTileAt(symbol, row, column);
     }
 
-    private bool IsPositionOcuppied(int row, int column)
+    private bool IsPositionOccupied(int row, int column)
     {
         return _board.TileAt(row, column).Player != Board.EmptyPlayer;
     }
@@ -90,7 +90,7 @@ public class Game
         return symbol == _lastSymbol;
     }
 
-    private static bool IsPlayerO(char symbol)
+    private bool IsPlayerO(char symbol)
     {
         return symbol == Board.PlayerO;
     }
