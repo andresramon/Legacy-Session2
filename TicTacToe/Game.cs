@@ -122,17 +122,17 @@ public class Game
 
     public char Winner()
     {
-        if (IsRowTaken(Board.FirstRow) && IsFirstRowFullWithSamePlayer())
+        if (IsRowTaken(Board.FirstRow) && IsRowFullWithSamePlayer(Board.FirstRow))
         {
             return _board.TileAt(Board.FirstRow, Board.FirstColumn).Player;
         }
 
-        if (IsRowTaken(Board.SecondRow) && IsSecondRowFullWithSamePlayer())
+        if (IsRowTaken(Board.SecondRow) && IsRowFullWithSamePlayer(Board.SecondRow))
         {
             return _board.TileAt(Board.SecondRow, Board.FirstColumn).Player;
         }
 
-        if (IsRowTaken(Board.ThirdRow) && IsThirdRowFullWithSamePlayer())
+        if (IsRowTaken(Board.ThirdRow) && IsRowFullWithSamePlayer(Board.ThirdRow))
         {
             return _board.TileAt(Board.ThirdRow, Board.FirstColumn).Player;
         }
@@ -140,28 +140,12 @@ public class Game
         return Board.EmptyPlayer;
     }
 
-    private bool IsThirdRowFullWithSamePlayer()
+    private bool IsRowFullWithSamePlayer(int row)
     {
-        return _board.TileAt(Board.ThirdRow, Board.FirstColumn).Player ==
-               _board.TileAt(Board.ThirdRow, Board.SecondColumn).Player &&
-               _board.TileAt(Board.ThirdRow, Board.ThirdColumn).Player ==
-               _board.TileAt(Board.ThirdRow, Board.SecondColumn).Player;
-    }
-
-    private bool IsSecondRowFullWithSamePlayer()
-    {
-        return _board.TileAt(Board.SecondRow, Board.FirstColumn).Player ==
-               _board.TileAt(Board.SecondRow, Board.SecondColumn).Player &&
-               _board.TileAt(Board.SecondRow, Board.ThirdColumn).Player ==
-               _board.TileAt(Board.SecondRow, Board.SecondColumn).Player;
-    }
-
-    private bool IsFirstRowFullWithSamePlayer()
-    {
-        return _board.TileAt(Board.FirstRow, Board.FirstColumn).Player ==
-               _board.TileAt(Board.FirstRow, Board.SecondColumn).Player &&
-               _board.TileAt(Board.FirstRow, Board.ThirdColumn).Player ==
-               _board.TileAt(Board.FirstRow, Board.SecondColumn).Player;
+        return _board.TileAt(row, Board.FirstColumn).Player ==
+               _board.TileAt(row, Board.SecondColumn).Player &&
+               _board.TileAt(row, Board.ThirdColumn).Player ==
+               _board.TileAt(row, Board.SecondColumn).Player;
     }
 
     private bool IsRowTaken(int row)
