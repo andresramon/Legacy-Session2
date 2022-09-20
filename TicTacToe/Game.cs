@@ -6,8 +6,8 @@ namespace TicTacToe;
 
 public class Tile
 {
-    public int Row { get; set; }
-    public int Column { get; set; }
+    public int Row { get; init; }
+    public int Column { get; init; }
     public char Player { get; set; }
 }
 
