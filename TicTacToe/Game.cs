@@ -140,10 +140,10 @@ public class Game
 
     private bool IsSecondRowFullWithSamePlayer()
     {
-        return _board.TileAt(1, 0).Symbol ==
-               _board.TileAt(1, 1).Symbol &&
-               _board.TileAt(1, 2).Symbol ==
-               _board.TileAt(1, 1).Symbol;
+        return _board.TileAt(Board.SecondRow, Board.FirstColumn).Symbol ==
+               _board.TileAt(Board.SecondRow, Board.SecondColumn).Symbol &&
+               _board.TileAt(Board.SecondRow, Board.ThirdColumn).Symbol ==
+               _board.TileAt(Board.SecondRow, Board.SecondColumn).Symbol;
     }
 
     private bool IsSecondRowTaken()
