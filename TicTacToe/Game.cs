@@ -18,6 +18,10 @@ public class Board
     const int MaxColumn = 3;
     public const char EmptyPlayer = ' ';
     public const char PlayerO = 'O';
+    public const int FirstRow = 0;
+    public const int FirstColumn = 0;
+    public const int SecondRow = 1;
+    public const int ThirdRow = 2;
     public Board()
     {
         for (var row = 0; row < MaxRow; row++)
@@ -47,6 +51,7 @@ public class Game
     const string InvalidFirstPlayer = "Invalid first player";
     const string InvalidNextPlayer = "Invalid next player";
     const string InvalidPosition = "Invalid position";
+    
     public void Play(char symbol, int x, int y)
     {
         if (IfFirstMove() && IsPlayerO(symbol))
@@ -97,16 +102,23 @@ public class Game
     {
         if (IsFirstRowTaken())
             if (IsFirstRowFullWithSamePlayer())
-                return _board.TileAt(0, 0).Symbol;
-        
+            {
+                return _board.TileAt(Board.FirstRow, Board.FirstColumn).Symbol;
+            }
+
         if (IsSecondRowTaken())
             if (IsSecondRowFullWithSamePlayer())
-                return _board.TileAt(1, 0).Symbol;
-        
+            {
+                return _board.TileAt(Board.SecondRow, Board.FirstColumn).Symbol;
+            }
+
         if (IsThirdRowTaken())
             if (IsThirdRowFullWithSamePlayer())
-                return _board.TileAt(2, 0).Symbol;
-        return ' ';
+            {
+                return _board.TileAt(Board.ThirdRow, Board.FirstColumn).Symbol;
+            }
+
+        return Board.EmptyPlayer;
     }
 
     private bool IsThirdRowFullWithSamePlayer()
