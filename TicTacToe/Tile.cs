@@ -23,5 +23,9 @@ public class Tile
         Player = player;
     }
 
-    
+
+    public bool IsMatchesPosition(int row, int column)
+    {
+        return Row == row && Column == column;
+    }
 }

@@ -28,7 +28,7 @@ public class Board
 
     private Tile TileAt(int row, int column)
     {
-        return _plays.Single(tile => tile.Row == row && tile.Column == column);
+        return _plays.Single(tile => tile.IsMatchesPosition(row, column));
     }
 
     public void SetPlayerToTile(char player, int row, int column)
