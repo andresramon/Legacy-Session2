@@ -21,7 +21,7 @@ public class Board
         {
             for (var column = FirstColumn; column < MaxColumn; column++)
             {
-                _plays.Add(new Tile { Row = row, Column = column, Player = Tile.EmptyPlayer });
+                _plays.Add(new Tile(row, column));
             }
         }
     }
@@ -33,7 +33,7 @@ public class Board
 
     public void SetPlayerToTile(char player, int row, int column)
     {
-        TileAt(row, column).Player = player;
+        TileAt(row, column).SetPlayer(player);
     }
 
     private bool IsPositionOccupied(int row, int column)
