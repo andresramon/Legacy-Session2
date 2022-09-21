@@ -9,7 +9,6 @@ public class Board
     private readonly List<Tile> _plays = new();
     private const int MaxRow = 3;
     const int MaxColumn = 3;
-    public const char EmptyPlayer = ' ';
     public const char PlayerO = 'O';
     private const int FirstRow = 0;
     private const int FirstColumn = 0;
@@ -22,7 +21,7 @@ public class Board
         {
             for (var column = FirstColumn; column < MaxColumn; column++)
             {
-                _plays.Add(new Tile { Row = row, Column = column, Player = EmptyPlayer });
+                _plays.Add(new Tile { Row = row, Column = column, Player = Tile.EmptyPlayer });
             }
         }
     }
@@ -32,14 +31,14 @@ public class Board
         return _plays.Single(tile => tile.Row == row && tile.Column == column);
     }
 
-    public void AddTileAt(char player, int row, int column)
+    public void SetPlayerToTile(char player, int row, int column)
     {
-        _plays.Single(tile => tile.Row == row && tile.Column == column).Player = player;
+        TileAt(row, column).Player = player;
     }
 
     private bool IsPositionOccupied(int row, int column)
     {
-        return TileAt(row, column).Player != EmptyPlayer;
+        return TileAt(row, column).IsPositionOccupied();
     }
 
     public void ValidateFreePosition(int row, int column)
@@ -60,9 +59,9 @@ public class Board
 
     private bool IsRowTaken(int row)
     {
-        return TileAt(row, FirstColumn).Player != EmptyPlayer &&
-               TileAt(row, SecondColumn).Player != EmptyPlayer &&
-               TileAt(row, ThirdColumn).Player != EmptyPlayer;
+        return TileAt(row, FirstColumn).Player != Tile.EmptyPlayer &&
+               TileAt(row, SecondColumn).Player != Tile.EmptyPlayer &&
+               TileAt(row, ThirdColumn).Player != Tile.EmptyPlayer;
     }
 
     private bool IsWinnerRow(int row)
@@ -80,6 +79,6 @@ public class Board
             }
         }
 
-        return EmptyPlayer;
+        return Tile.EmptyPlayer;
     }
 }

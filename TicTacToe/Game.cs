@@ -5,7 +5,7 @@ namespace TicTacToe;
 public class Game
 {
     private readonly Board _board = new();
-    private char _lastPlayer = Board.EmptyPlayer;
+    private char _lastPlayer = Tile.EmptyPlayer;
     const string InvalidFirstPlayer = "Invalid first player";
     const string InvalidNextPlayer = "Invalid next player";
     
@@ -44,7 +44,7 @@ public class Game
     private void UpdateGameState(char player, int row, int column)
     {
         _lastPlayer = player;
-        _board.AddTileAt(player, row, column);
+        _board.SetPlayerToTile(player, row, column);
     }
 
     private bool IsSamePlayerAsLastMove(char player)
@@ -59,7 +59,7 @@ public class Game
 
     private bool IfFirstMove()
     {
-        return _lastPlayer == Board.EmptyPlayer;
+        return _lastPlayer == Tile.EmptyPlayer;
     }
 
     public char Winner()
