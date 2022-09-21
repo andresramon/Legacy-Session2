@@ -64,18 +64,6 @@ public class Game
 
     public char Winner()
     {
-        for (int row = Board.FirstRow; row <= Board.MaxRow; row++)
-        {
-            if (IsWinnerRow(row))
-            {
-                return _board.TileAt(row, Board.FirstColumn).Player;
-            }
-        }
-        return Board.EmptyPlayer;
-    }
-
-    private bool IsWinnerRow(int row)
-    {
-        return _board.IsRowTaken(row) && _board.IsRowFullWithSamePlayer(row);
+        return _board.GetWinner();
     }
 }
