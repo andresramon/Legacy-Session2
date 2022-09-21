@@ -1,50 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace TicTacToe;
-
-public class Tile
-{
-    public int Row { get; init; }
-    public int Column { get; init; }
-    public char Player { get; set; }
-}
-
-public class Board
-{
-    private readonly List<Tile> _plays = new();
-    public const int MaxRow = 3;
-    const int MaxColumn = 3;
-    public const char EmptyPlayer = ' ';
-    public const char PlayerO = 'O';
-    public const int FirstRow = 0;
-    public const int FirstColumn = 0;
-    public const int SecondRow = 1;
-    public const int ThirdRow = 2;
-    public const int SecondColumn = 1;
-    public const int ThirdColumn = 2;
-    public Board()
-    {
-        for (var row = FirstRow; row < MaxRow; row++)
-        {
-            for (var column = FirstColumn; column < MaxColumn; column++)
-            {
-                _plays.Add(new Tile { Row = row, Column = column, Player = EmptyPlayer });
-            }
-        }
-    }
-
-    public Tile TileAt(int row, int column)
-    {
-        return _plays.Single(tile => tile.Row == row && tile.Column == column);
-    }
-
-    public void AddTileAt(char player, int row, int column)
-    {
-        _plays.Single(tile => tile.Row == row && tile.Column == column).Player = player;
-    }
-}
 
 public class Game
 {
@@ -52,7 +8,6 @@ public class Game
     private char _lastPlayer = Board.EmptyPlayer;
     const string InvalidFirstPlayer = "Invalid first player";
     const string InvalidNextPlayer = "Invalid next player";
-    const string InvalidPosition = "Invalid position";
     
     public void Play(char player, int row, int column)
     {
@@ -67,15 +22,7 @@ public class Game
 
         ValidatePlayerChanges(player);
 
-        ValidateFreePosition(row, column);
-    }
-
-    private void ValidateFreePosition(int row, int column)
-    {
-        if (IsPositionOccupied(row, column))
-        {
-            throw new Exception(InvalidPosition);
-        }
+        _board.ValidateFreePosition(row, column);
     }
 
     private void ValidatePlayerChanges(char player)
@@ -98,11 +45,6 @@ public class Game
     {
         _lastPlayer = player;
         _board.AddTileAt(player, row, column);
-    }
-
-    private bool IsPositionOccupied(int row, int column)
-    {
-        return _board.TileAt(row, column).Player != Board.EmptyPlayer;
     }
 
     private bool IsSamePlayerAsLastMove(char player)
@@ -134,21 +76,6 @@ public class Game
 
     private bool IsWinnerRow(int row)
     {
-        return IsRowTaken(row) && IsRowFullWithSamePlayer(row);
-    }
-
-    private bool IsRowFullWithSamePlayer(int row)
-    {
-        return _board.TileAt(row, Board.FirstColumn).Player ==
-               _board.TileAt(row, Board.SecondColumn).Player &&
-               _board.TileAt(row, Board.ThirdColumn).Player ==
-               _board.TileAt(row, Board.SecondColumn).Player;
-    }
-
-    private bool IsRowTaken(int row)
-    {
-        return _board.TileAt(row, Board.FirstColumn).Player != Board.EmptyPlayer &&
-               _board.TileAt(row, Board.SecondColumn).Player != Board.EmptyPlayer &&
-               _board.TileAt(row, Board.ThirdColumn).Player != Board.EmptyPlayer;
+        return _board.IsRowTaken(row) && _board.IsRowFullWithSamePlayer(row);
     }
 }
