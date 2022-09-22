@@ -1,88 +1,69 @@
 ﻿using System;
 
-namespace TicTacToe
+namespace TicTacToe;
+
+public class Game
 {
-    public class Game
+    private readonly Board _board = new();
+    private char _lastPlayer = Tile.EmptyPlayer;
+    const string InvalidFirstPlayer = "Invalid first player";
+    const string InvalidNextPlayer = "Invalid next player";
+    
+    public void Play(char player, int row, int column)
     {
-        private char _lastSymbol = ' ';
-        private readonly Board _board = new Board();
-        
-        public void Play(char symbol, int x, int y)
-        {
-            CheckValidMove(symbol, x, y);
-            UpdateGameState(symbol, x, y);
-        }
+        ValidatePlay(player, row, column);
 
-        private void UpdateGameState(char symbol, int x, int y)
-        {
-            _lastSymbol = symbol;
-            _board.AddTileAt(symbol, x, y);
-        }
+        UpdateGameState(player, row, column);
+    }
 
-        private void CheckValidMove(char symbol, int x, int y)
-        {
-            CheckFirstMoveValid(symbol);
-            CheckPlayerRepeated(symbol);
-            _board.CheckAlreadyPlayedTile(x, y);
-        }
+    private void ValidatePlay(char player, int row, int column)
+    {
+        ValidateFirstPlayer(player);
 
-        private void CheckFirstMoveValid(char symbol)
-        {
-            if (IsFirstMove() && IsPlayerO(symbol))
-            {
-                throw new Exception("Invalid first player");
-            }
-        }
+        ValidatePlayerChanges(player);
 
-        private void CheckPlayerRepeated(char symbol)
-        {
-            if (symbol == _lastSymbol)
-            {
-                throw new Exception("Invalid next player");
-            } 
-        }
+        _board.ValidateFreePosition(row, column);
+    }
 
-        private bool IsFirstMove()
+    private void ValidatePlayerChanges(char player)
+    {
+        if (IsSamePlayerAsLastMove(player))
         {
-            return _lastSymbol == ' ';
+            throw new Exception(InvalidNextPlayer);
         }
+    }
 
-        private static bool IsPlayerO(char symbol)
+    private void ValidateFirstPlayer(char player)
+    {
+        if (IfFirstMove() && IsPlayerO(player))
         {
-            return symbol == 'O';
+            throw new Exception(InvalidFirstPlayer);
         }
+    }
 
-        public char Winner()
-        {
-            for (int row = 0;row < 3;row++)
-            {
-                if(IsWinnerInRow(row))
-                {
-                    return _board.TileAt(row, 0).Symbol;
-                } 
-            }
+    private void UpdateGameState(char player, int row, int column)
+    {
+        _lastPlayer = player;
+        _board.SetPlayerToTile(player, row, column);
+    }
 
-            return ' ';
-        }
+    private bool IsSamePlayerAsLastMove(char player)
+    {
+        return player == _lastPlayer;
+    }
 
-        private bool IsWinnerInRow(int row)
-        {
-            return IsRowPositionsFull(row) && IsRowWithSameSymbol(row);
-        }
+    private bool IsPlayerO(char player)
+    {
+        return player == Board.PlayerO;
+    }
 
-        private bool IsRowPositionsFull(int row)
-        {
-            return _board.TileAt(row, 0).Symbol != ' ' &&
-                   _board.TileAt(row, 1).Symbol != ' ' &&
-                   _board.TileAt(row, 2).Symbol != ' ';
-        }
+    private bool IfFirstMove()
+    {
+        return _lastPlayer == Tile.EmptyPlayer;
+    }
 
-        private bool IsRowWithSameSymbol(int row)
-        {
-            return _board.TileAt(row, 0).Symbol == 
-                   _board.TileAt(row, 1).Symbol &&
-                   _board.TileAt(row, 2).Symbol == 
-                   _board.TileAt(row, 1).Symbol;
-        }
+    public char Winner()
+    {
+        return _board.GetWinner();
     }
 }

@@ -6,41 +6,79 @@ namespace TicTacToe;
 
 public class Board
 {
-    private List<Tile> _plays = new List<Tile>();
-
+    private readonly List<Tile> _plays = new();
+    private const int MaxRow = 3;
+    const int MaxColumn = 3;
+    public const char PlayerO = 'O';
+    private const int FirstRow = 0;
+    private const int FirstColumn = 0;
+    private const int SecondColumn = 1;
+    private const int ThirdColumn = 2;
+    const string InvalidPosition = "Invalid position";
     public Board()
     {
-        for (int i = 0; i < 3; i++)
+        for (var row = FirstRow; row < MaxRow; row++)
         {
-            for (int j = 0; j < 3; j++)
+            for (var column = FirstColumn; column < MaxColumn; column++)
             {
-                _plays.Add(new Tile { X = i, Y = j, Symbol = ' ' });
+                _plays.Add(new Tile(row, column));
             }
         }
     }
 
-    public Tile TileAt(int x, int y)
+    private Tile TileAt(int row, int column)
     {
-        return _plays.Single(tile => tile.X == x && tile.Y == y);
+        return _plays.Single(tile => tile.IsMatchesPosition(row, column));
     }
 
-    public void AddTileAt(char symbol, int x, int y)
+    public void SetPlayerToTile(char player, int row, int column)
     {
-        var newTile = new Tile
-        {
-            X = x,
-            Y = y,
-            Symbol = symbol
-        };
-
-        _plays.Single(tile => tile.X == x && tile.Y == y).Symbol = symbol;
+        TileAt(row, column).SetPlayer(player);
     }
 
-    public void CheckAlreadyPlayedTile(int x, int y)
+    private bool IsPositionOccupied(int row, int column)
     {
-        if (this.TileAt(x, y).Symbol != ' ')
+        return TileAt(row, column).IsPositionOccupied();
+    }
+
+    public void ValidateFreePosition(int row, int column)
+    {
+        if (IsPositionOccupied(row, column))
         {
-            throw new Exception("Invalid position");
+            throw new Exception(InvalidPosition);
         }
+    }
+
+    private bool IsRowFullWithSamePlayer(int row)
+    {
+        return TileAt(row, FirstColumn).Player ==
+               TileAt(row, SecondColumn).Player &&
+               TileAt(row, ThirdColumn).Player ==
+               TileAt(row, SecondColumn).Player;
+    }
+
+    private bool IsRowTaken(int row)
+    {
+        return TileAt(row, FirstColumn).Player != Tile.EmptyPlayer &&
+               TileAt(row, SecondColumn).Player != Tile.EmptyPlayer &&
+               TileAt(row, ThirdColumn).Player != Tile.EmptyPlayer;
+    }
+
+    private bool IsWinnerRow(int row)
+    {
+        return IsRowTaken(row) && IsRowFullWithSamePlayer(row);
+    }
+
+    public char GetWinner()
+    {
+        for (int row = FirstRow; row <= MaxRow; row++)
+        {
+            if (IsWinnerRow(row))
+            {
+                return TileAt(row, FirstColumn).Player;
+            }
+        }
+
+        return Tile.EmptyPlayer;
     }
 }

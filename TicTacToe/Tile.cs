@@ -2,7 +2,30 @@
 
 public class Tile
 {
-    public int X {get; set;}
-    public int Y {get; set;}
-    public char Symbol {get; set;}
+    public const char EmptyPlayer = ' ';
+    public int Row { get; }
+    public int Column { get; }
+    public char Player { get; private set; }
+
+    public Tile(int row, int column)
+    {
+        Row = row;
+        Column = column;
+        Player = EmptyPlayer;
+    }
+    public bool IsPositionOccupied()
+    {
+        return Player != EmptyPlayer;
+    }
+
+    public void SetPlayer(char player)
+    {
+        Player = player;
+    }
+
+
+    public bool IsMatchesPosition(int row, int column)
+    {
+        return Row == row && Column == column;
+    }
 }
