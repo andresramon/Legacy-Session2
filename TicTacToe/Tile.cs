@@ -3,12 +3,12 @@
     public class Tile
     {
         public const char EmptyPlayer = ' ';
-        private readonly Position position;
+        private readonly Position _position;
         private char Player { get; set; }
 
         public Tile(int row, int column)
         {
-            position = new Position(row, column);
+            _position = new Position(row, column);
             Player = EmptyPlayer;
         }
         public bool IsPositionOccupied()
@@ -28,7 +28,7 @@
 
         public bool IsMatchesPosition(Position otherPosition)
         {
-            return position.Equals(otherPosition);
+            return _position.Equals(otherPosition);
         }
 
         public bool HasSamePlayer(Tile otherTile)
