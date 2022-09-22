@@ -26,15 +26,9 @@
             return Player;
         }
 
-
-        public bool IsMatchesPosition(int row, int column)
-        {
-            return position.Row == row && position.Column == column;
-        }
-
         public bool IsMatchesPosition(Position otherPosition)
         {
-            return position.Row == otherPosition.Row && position.Column == otherPosition.Column;
+            return position.Equals(otherPosition);
         }
 
         public bool HasSamePlayer(Tile otherTile)
